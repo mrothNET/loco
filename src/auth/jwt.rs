@@ -62,15 +62,15 @@ impl JWT {
     /// ```rust
     /// use loco_rs::auth;
     ///
-    /// auth::jwt::JWT::new("PqRwLF2rhHe8J22oBeHy").generate_token(&604800, "PID".to_string(), None);
+    /// auth::jwt::JWT::new("PqRwLF2rhHe8J22oBeHy").generate_token(604800, "PID".to_string(), None);
     /// ```
     pub fn generate_token(
         &self,
-        expiration: &u64,
+        expiration: u64,
         pid: String,
         claims: Option<Value>,
     ) -> JWTResult<String> {
-        let exp = get_current_timestamp().saturating_add(*expiration);
+        let exp = get_current_timestamp().saturating_add(expiration);
 
         let claims = UserClaims { pid, exp, claims };
 
@@ -129,7 +129,7 @@ mod tests {
     ) {
         let jwt = JWT::new("PqRwLF2rhHe8J22oBeHy");
         let token = jwt
-            .generate_token(&expiration, "pid".to_string(), claims)
+            .generate_token(expiration, "pid".to_string(), claims)
             .unwrap();
 
         std::thread::sleep(std::time::Duration::from_secs(3));

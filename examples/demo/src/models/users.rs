@@ -216,7 +216,7 @@ impl super::_entities::users::Model {
     /// # Errors
     ///
     /// when could not convert user claims to jwt token
-    pub fn generate_jwt(&self, secret: &str, expiration: &u64) -> ModelResult<String> {
+    pub fn generate_jwt(&self, secret: &str, expiration: u64) -> ModelResult<String> {
         Ok(jwt::JWT::new(secret).generate_token(
             expiration,
             self.pid.to_string(),
@@ -286,7 +286,7 @@ impl super::_entities::users::ActiveModel {
     /// updates it in the database.
     ///
     /// This method hashes the provided password and sets it as the new password
-    /// for the user.    
+    /// for the user.
     /// # Errors
     ///
     /// when has DB query error or could not hashed the given password
